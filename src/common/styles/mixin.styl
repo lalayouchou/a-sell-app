@@ -1,0 +1,16 @@
+bg-image($url)
+  background url($url + '@2x.png')
+  @media (-webkit-min-device-pixel-radio: 3),(min-device-pixel-radio: 3)
+    background url($url + '@3x.png')
+
+ellipsis()
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis 
+
+absolute()
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  top 0
