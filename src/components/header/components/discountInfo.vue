@@ -6,7 +6,7 @@
       <div class="line"></div>
     </div>
     <div v-if="seller.supports">
-      <div class="content-supports" v-for="(item, index) of seller.supports">
+      <div class="content-supports" v-for="(item,index) of seller.supports" :key="index">
         <span class="content-supports-icon" :class="bgImage[item.type]">
         </span>{{item.description}}
       </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name:'discountInfo',
+  name: 'discountInfo',
   props: {
     seller: Object
   },

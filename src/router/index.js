@@ -12,11 +12,12 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home ,
+      component: Home,
       children: [{
         path: 'Goods',
         name: 'Goods',
-        component: Goods
+        component: Goods,
+        props: true
       }, {
         path: 'Ratings',
         name: 'Ratings',

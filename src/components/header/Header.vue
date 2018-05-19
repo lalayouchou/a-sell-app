@@ -21,8 +21,7 @@
        <div
        class="content-supports-number"
        @click="handleShowDetail"
-       >{{supportsNumber + '个'}}
-          <span class="font_family">&#xe60b;</span>
+       >{{supportsNumber + '个'}}<i class="icon-keyboard_arrow_right number-icon"></i>
        </div>
      </div>
      <div class="header-bgImage">
@@ -34,10 +33,16 @@
      >
        <div class="bulletin-brand"></div>
        <div class="bulletin-text">{{seller.bulletin}}</div>
-       <div class="font_family bulletin-icon">&#xe60b;</div>
+       <div class="icon-keyboard_arrow_right bulletin-icon"></div>
      </div>
     </div>
-    <header-detail v-show="showDetail" :seller="seller"></header-detail>
+    <transition name="fade">
+      <header-detail
+      v-show="showDetail"
+      :seller="seller"
+      @close="toHideDetail"
+      ></header-detail>
+    </transition>
    </div>
   </div>
 </template>
@@ -60,22 +65,25 @@ export default {
         'guarantee',
         'invoice',
         'special'],
-        showDetail: false
+      showDetail: false
     }
   },
   computed: {
-    supportsNumber () {
-      return this.seller.supports.length
-    },
     iconBgImage () {
       const index = this.seller.supports[0].type
       const key = this.bgImage[index]
       return {[key]: true}
+    },
+    supportsNumber () {
+      return this.seller.supports.length
     }
   },
   methods: {
     handleShowDetail () {
       this.showDetail = true
+    },
+    toHideDetail () {
+      this.showDetail = false
     }
   }
 }
@@ -148,13 +156,19 @@ export default {
         position absolute
         right .24rem
         top 1.15rem
-        width 1.16rem
+        width .76rem
+        padding 0 .15rem 0 .25rem
         line-height .6rem
         font-weight 200
         font-size .24rem
         background rgba(0,0,0,.2)
         border-radius .34rem
         text-align center
+        .number-icon
+          display inline-block
+          width .32rem
+          height .32rem
+          vertical-align -20%
     .header-bgImage
       position absolute
       top 0
@@ -190,4 +204,12 @@ export default {
         width .32rem
         padding  0 .24rem 0 .08rem
         background transparent !important
+.fade-enter,.fade-leave-to
+  opacity 0
+.fade-enter-active,.fade-leave-active
+  transition all .5s
+.fade-enter-to,.fade-leave
+  background rgba(7,17,27,.8)
+.icon-keyboard_arrow_right
+  font-size .32rem
 </style>

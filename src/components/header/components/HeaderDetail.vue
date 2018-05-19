@@ -1,14 +1,18 @@
 <template>
-  <div class="detail">
-    <div class="content">
-      <h1 class="content-name">{{seller.name}}</h1>
-      <div class="star-wrapper">
-        <common-star :score="seller.score" :size="48"></common-star>
+  <div>
+    <div class="detail">
+      <div class="content">
+        <h1 class="content-name">{{seller.name}}</h1>
+        <div class="star-wrapper">
+          <common-star :score="seller.score" :size="48"></common-star>
+        </div>
+        <discount-info :seller="seller"></discount-info>
+        <seller-info :bulletin="seller.bulletin"></seller-info>
       </div>
-      <discount-info :seller="seller"></discount-info>
-      <seller-info :bulletin="seller.bulletin"></seller-info>
+      <div class="footer">
+        <div class="icon-close" @click="handleClick"></div>
+      </div>
     </div>
-    <div class="footer"></div>
   </div>
 </template>
 
@@ -25,6 +29,11 @@ export default {
     commonStar,
     discountInfo,
     sellerInfo
+  },
+  methods: {
+    handleClick () {
+      this.$emit('close')
+    }
   }
 }
 </script>
@@ -57,5 +66,13 @@ export default {
   .footer
     text-align center
     line-height 2rem
-    min-height 2rem
+    height 2rem
+    .icon-close
+      display inline-block
+      height .8rem
+      width .8rem
+      border-radius 50%
+      border .03rem solid #fff
+      line-height .8rem
+      font-weight bold
 </style>
