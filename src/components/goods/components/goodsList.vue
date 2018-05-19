@@ -1,8 +1,13 @@
 <template>
   <div>
     <div class="nemus">
-      <div v-for="(menu,index) of goods" class="menu" :key="index">
-        <div class="menu-name border-bottom">
+      <div
+      v-for="(menu,index) of goods"
+      class="menu" :key="index"
+      :class="{current: currentIndex===index}"
+      @click="selectMenu(index, $event)"
+      >
+        <div class="menu-name" :class="{'border-bottom':(currentIndex !== index)&&(currentIndex !== index+1)}">
           <span v-if="menu.type !== -1">
           </span>{{menu.name}}
         </div>
@@ -15,7 +20,14 @@
 export default {
   name: 'goodsList',
   props: {
-    goods: Array
+    goods: Array,
+    currentIndex: Number
+  },
+  methods: {
+    selectMenu (index, event) {
+      if (!event._constructed) { return }
+      this.$emit('handleClick', index)
+    }
   }
 }
 </script>
@@ -35,4 +47,8 @@ export default {
     line-height .28rem
     font-size .24rem
     font-weight 200
+.current
+  background #fff
+  & > .menu-name
+    font-weight 700
 </style>

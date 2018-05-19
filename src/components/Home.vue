@@ -1,6 +1,6 @@
 <template>
   <div>
-    <home-header :seller="seller" v-if="seller"></home-header>
+    <home-header :seller="seller"></home-header>
     <home-nav ></home-nav>
     <keep-alive>
       <router-view></router-view>
@@ -21,7 +21,7 @@ export default {
   },
   data () {
     return {
-      seller: '',
+      seller: {},
       ratings: '',
       goods: ''
     }

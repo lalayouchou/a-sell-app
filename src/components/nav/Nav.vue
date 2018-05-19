@@ -26,6 +26,7 @@ export default {
   line-height .8rem
   display flex
   text-align center
+  z-index -1
   .nav
     flex 1
     color rgb(77, 85, 93)

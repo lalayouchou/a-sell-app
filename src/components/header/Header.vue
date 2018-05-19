@@ -75,7 +75,9 @@ export default {
       return {[key]: true}
     },
     supportsNumber () {
-      return this.seller.supports.length
+      if (this.seller.supports) {
+        return this.seller.supports.length
+      }
     }
   },
   methods: {

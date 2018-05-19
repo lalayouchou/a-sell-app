@@ -33,31 +33,52 @@
 export default {
   name: 'foodsList',
   props: {
-    goods: Array
+    goods: Array,
+    scrollY: Number,
+    clickIndex: [Number, String],
+    scrollfood: [Object, String]
   },
   data () {
     return {
-      HeightList: []
+      HeightList: [],
+      lastIndex: ''
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      console.log(this.$refs)
-      console.log(this.$refs.hook)
-    })
-  }
-  /*methods: {
+  watch: {
+    scrollY () {
+      for (let i = 0; i < this.HeightList.length; i++) {
+        const height1 = this.HeightList[i]
+        const height2 = this.HeightList[i + 1]
+        if (this.scrollY >= height1 && (this.scrollY < height2 || !height2)) {
+          if (this.lastIndex !== i) {
+            this.$emit('index', i)
+            this.lastIndex = i
+          }
+        }
+      }
+    },
+    clickIndex () {
+      let index = this.clickIndex
+      this.scrollfood.scrollToElement(this.$refs.hook[index], 300)
+    }
+  },
+  updated () {
+    if (!this.HeightList.length) {
+      this.calculate()
+    }
+  },
+  methods: {
     calculate () {
-      let foodList = this.$refs
-      let height = 0;
-      this.HeightList.push(height);
+      let foodList = this.$refs.hook
+      let height = 0
+      this.HeightList.push(height)
       for (let i = 0; i < foodList.length; i++) {
-        let item = foodList[i];
-        height += item.clientHeight;
-        this.HeightList.push(height);
+        let item = foodList[i]
+        height += item.clientHeight
+        this.HeightList.push(height)
       }
     }
-  }*/
+  }
 }
 </script>
 
