@@ -47,7 +47,7 @@ export default {
   watch: {
     goods () {
       if (Array.isArray(this.goods)) {
-        Bus.$emit('goods', this.goods)
+        Bus.$emit('goods', this.goods, this.seller)
       }
     }
   }

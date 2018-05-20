@@ -15,12 +15,16 @@
      :scrollfood="scrollfood"
      ></foods-list>
    </div>
+   <shop-cart
+   :seller="seller"
+   ></shop-cart>
   </div>
 </template>
 
 <script>
 import GoodsList from './components/goodsList.vue'
 import FoodsList from './components/foodsList.vue'
+import shopCart from './components/shopCart.vue'
 import BScroll from 'better-scroll'
 import Bus from '@/bus.js'
 export default {
@@ -32,16 +36,19 @@ export default {
       scrollgood: '',
       scrollY: 0,
       currentIndex: 0,
-      clickIndex: ''
+      clickIndex: '',
+      seller: {}
     }
   },
   components: {
     GoodsList,
-    FoodsList
+    FoodsList,
+    shopCart
   },
   mounted () {
-    Bus.$on('goods', (res) => {
-      this.goods = res
+    Bus.$on('goods', (goods, seller) => {
+      this.goods = goods
+      this.seller = seller
     })
     this.$nextTick(() => {
       this.scrollgood = new BScroll(this.$refs.goods, {
