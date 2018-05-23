@@ -22,6 +22,11 @@
                 </span>
               </p>
             </div>
+            <cart-control
+            class="control"
+            :food="food"
+            @addfood="handleAddFood"
+            ></cart-control>
           </div>
         </div>
       </div>
@@ -30,6 +35,8 @@
 </template>
 
 <script>
+import cartControl from 'components/common/cartControl/cartControl.vue'
+import Bus from '@/bus.js'
 export default {
   name: 'foodsList',
   props: {
@@ -37,6 +44,9 @@ export default {
     scrollY: Number,
     clickIndex: [Number, String],
     scrollfood: [Object, String]
+  },
+  components: {
+    cartControl
   },
   data () {
     return {
@@ -77,6 +87,11 @@ export default {
         height += item.clientHeight
         this.HeightList.push(height)
       }
+    },
+    handleAddFood (target) {
+      this.$nextTick(() => {
+        Bus.$emit('addfood', target)
+      })
     }
   }
 }
@@ -101,6 +116,7 @@ export default {
     display flex
     margin 0 .36rem
     padding .36rem 0
+    position relative
     .icon
       width 1.15rem
       height 1.15rem
@@ -134,4 +150,8 @@ export default {
           font-size .2rem
           font-weight bold
           text-decoration line-through
+    .control
+      position absolute
+      bottom .18rem
+      right 0
 </style>

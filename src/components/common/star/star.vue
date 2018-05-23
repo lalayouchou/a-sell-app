@@ -11,7 +11,7 @@
 
 <script>
 const LENGTH = 5
-const StarSize = [24,36,48]
+const StarSize = [24, 36, 48]
 export default {
   name: 'CommonStar',
   props: {
@@ -20,18 +20,18 @@ export default {
   },
   computed: {
     starSize () {
-      if(StarSize.indexOf(this.size) !== -1){
+      if (StarSize.indexOf(this.size) !== -1) {
         return 'star-' + this.size
-      }else {
+      } else {
         return 'star-24'
       }
     },
     starList () {
       const result = []
       let score = Math.floor(this.score * 2) / 2
-      const hasHalfStar = score - (score|0)
+      const hasHalfStar = score - (score | 0)
       const integer = score - hasHalfStar
-      for(let i=0; i < (integer||LENGTH);i++){
+      for (let i = 0; i < (integer || LENGTH); i++) {
         result.push('on')
       }
       if (hasHalfStar) result.push('half')

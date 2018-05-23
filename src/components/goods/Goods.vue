@@ -17,6 +17,8 @@
    </div>
    <shop-cart
    :seller="seller"
+   :selectFoods="selectFoods"
+   @empty="handleEmpty"
    ></shop-cart>
   </div>
 </template>
@@ -45,6 +47,19 @@ export default {
     FoodsList,
     shopCart
   },
+  computed: {
+    selectFoods () {
+      let selectfoods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            selectfoods.push(food)
+          }
+        })
+      })
+      return selectfoods
+    }
+  },
   mounted () {
     Bus.$on('goods', (goods, seller) => {
       this.goods = goods
@@ -69,6 +84,9 @@ export default {
     },
     handleClick (num) {
       this.clickIndex = num
+    },
+    handleEmpty () {
+      this.selectFoods.forEach((food) => { food.count = 0 })
     }
   }
 }

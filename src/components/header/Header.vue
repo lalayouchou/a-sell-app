@@ -78,6 +78,7 @@ export default {
       if (this.seller.supports) {
         return this.seller.supports.length
       }
+      return 0
     }
   },
   methods: {
