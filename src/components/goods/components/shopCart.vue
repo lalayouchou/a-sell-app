@@ -293,6 +293,7 @@ export default {
       position fixed
       left .6rem
       bottom .4rem
+      z-index 9
       &.drop-enter-active
         transition all .4s cubic-bezier(.46,-0.61,.83,.67)
         .inner

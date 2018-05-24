@@ -1,18 +1,19 @@
 <template>
   <div class="Goods">
-   <div class="goods-wraper" ref="goods">
+   <div class="goods-wrapper" ref="goods">
      <goods-list :goods="goods"
      :currentIndex="currentIndex"
      @handleClick="handleClick"
      ></goods-list>
    </div>
-   <div class="foods-wraper" ref="foods">
+   <div class="foods-wrapper">
      <foods-list
      :goods="goods"
      :scrollY="scrollY"
      @index="handleIndex"
      :clickIndex="clickIndex"
      :scrollfood="scrollfood"
+     ref="foods"
      ></foods-list>
    </div>
    <shop-cart
@@ -69,7 +70,8 @@ export default {
       this.scrollgood = new BScroll(this.$refs.goods, {
         click: true
       })
-      this.scrollfood = new BScroll(this.$refs.foods, {
+      let el = this.$refs.foods.$el.getElementsByClassName('foods-wrapper')[0]
+      this.scrollfood = new BScroll(el, {
         click: true,
         probeType: 3
       })
@@ -101,10 +103,10 @@ export default {
   bottom 0.94rem
   display flex
   overflow hidden
-  z-index -1
-  .goods-wraper
+  .goods-wrapper
     width 1.6rem
     background #f3f5f7
-  .foods-wraper
+  .foods-wrapper
     flex 1
+    position relative
 </style>

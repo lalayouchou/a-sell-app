@@ -1,10 +1,16 @@
-<template>
+﻿<template>
   <div>
+  <div class="foods-wrapper">
     <div class="Foods">
       <div class="good" v-for="(item,index) of goods" :key="index">
         <div ref="hook">
           <div class="good-name">{{item.name}}</div>
-          <div class="food border-bottom" v-for="(food,index) of item.foods" :key="index">
+          <div
+          class="food border-bottom"
+          v-for="(food,index) of item.foods"
+          :key="index"
+          @click="selectFood(food)"
+          >
             <div class="icon">
               <img :src="food.icon" alt="" class="icon-content">
             </div>
@@ -32,10 +38,13 @@
       </div>
     </div>
   </div>
+  <food-detail :food="selectedFood" ref="foodDetail"></food-detail>
+  </div>
 </template>
 
 <script>
 import cartControl from 'components/common/cartControl/cartControl.vue'
+import foodDetail from './childComponents/FoodDetail.vue'
 import Bus from '@/bus.js'
 export default {
   name: 'foodsList',
@@ -46,12 +55,14 @@ export default {
     scrollfood: [Object, String]
   },
   components: {
-    cartControl
+    cartControl,
+    foodDetail
   },
   data () {
     return {
       HeightList: [],
-      lastIndex: ''
+      lastIndex: '',
+      selectedFood: {}
     }
   },
   watch: {
@@ -92,6 +103,10 @@ export default {
       this.$nextTick(() => {
         Bus.$emit('addfood', target)
       })
+    },
+    selectFood (food) {
+      this.selectedFood = food
+      this.$refs.foodDetail.show()
     }
   }
 }
@@ -103,55 +118,61 @@ export default {
   border-bottom-color rgba(7,17,27,.2)
 .good >>> .border-bottom:last-child::before
   border-bottom none
-.good
-  .good-name
-    padding-left .28rem
-    box-sizing border-box
-    border-left .05rem solid #d9dde1
-    line-height .52rem
-    background #f3f5f7
-    font-size .24rem
-    color rgb(147,153,159)
-  .food
-    display flex
-    margin 0 .36rem
-    padding .36rem 0
-    position relative
-    .icon
-      width 1.15rem
-      height 1.15rem
-      .icon-content
-        width 100%
-        border-radius .05rem
-    .content
-      flex 1
-      padding-left .2rem
-      .content-name
-        margin-top .04rem
-      .description
-        margin .16rem 0
-        font-size .2rem
-        line-height .28rem
-        color rgb(147,153,159)
-        .sellCount
-          margin-right .24rem
-      .content-price
-        line-height .48rem
-        vertical-align top
-        .price
-          color #f01414
-          font-size .28rem
-          font-weight bold
-          .price-symbol
-            font-size .2rem
-            font-weight normal
-        .oldPrice
-          color rgb(147,153,159)
+.foods-wrapper
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  top 0
+  .good
+    .good-name
+      padding-left .28rem
+      box-sizing border-box
+      border-left .05rem solid #d9dde1
+      line-height .52rem
+      background #f3f5f7
+      font-size .24rem
+      color rgb(147,153,159)
+    .food
+      display flex
+      margin 0 .36rem
+      padding .36rem 0
+      position relative
+      .icon
+        width 1.15rem
+        height 1.15rem
+        .icon-content
+          width 100%
+          border-radius .05rem
+      .content
+        flex 1
+        padding-left .2rem
+        .content-name
+          margin-top .04rem
+        .description
+          margin .16rem 0
           font-size .2rem
-          font-weight bold
-          text-decoration line-through
-    .control
-      position absolute
-      bottom .18rem
-      right 0
+          line-height .28rem
+          color rgb(147,153,159)
+          .sellCount
+            margin-right .24rem
+        .content-price
+          line-height .48rem
+          vertical-align top
+          .price
+            color #f01414
+            font-size .28rem
+            font-weight bold
+            .price-symbol
+              font-size .2rem
+              font-weight normal
+          .oldPrice
+            color rgb(147,153,159)
+            font-size .2rem
+            font-weight bold
+            text-decoration line-through
+      .control
+        position absolute
+        bottom .18rem
+        right 0
 </style>

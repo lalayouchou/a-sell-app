@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="detail">
-      <div class="content">
-        <h1 class="content-name">{{seller.name}}</h1>
-        <div class="star-wrapper">
-          <common-star :score="seller.score" :size="48"></common-star>
-        </div>
-        <discount-info :seller="seller"></discount-info>
-        <seller-info :bulletin="seller.bulletin"></seller-info>
+  <div class="detail">
+    <div class="content">
+      <h1 class="content-name">{{seller.name}}</h1>
+      <div class="star-wrapper">
+        <common-star :score="seller.score" :size="48"></common-star>
       </div>
-      <div class="footer">
-        <div class="icon-close" @click="handleClick"></div>
-      </div>
+      <discount-info :seller="seller"></discount-info>
+      <seller-info :bulletin="seller.bulletin"></seller-info>
+    </div>
+    <div class="footer">
+      <div class="icon-close" @click="handleClick"></div>
     </div>
   </div>
 </template>
@@ -45,7 +43,7 @@ export default {
   right 0
   top 0
   bottom 0
-  z-index 99
+  z-index 1
   overflow auto
   display flex
   flex-flow column

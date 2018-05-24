@@ -1,7 +1,7 @@
 <template>
   <div>
     <home-header :seller="seller"></home-header>
-    <home-nav ></home-nav>
+    <home-nav></home-nav>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
