@@ -1,26 +1,90 @@
-<template>
+﻿<template>
   <div class="ratingselect">
     <div class="rating-type border-bottom">
-      <span class="btn all active">全部<span class="num"> 22</span></span>
-      <span class="btn positive">全部<span class="num"> 22</span></span>
-      <span class="btn negative">全部<span class="num"> 22</span></span>
+      <span
+      class="btn all"
+      :class="{active: type === 2}"
+      @click="selectType(2)"
+      >
+        {{desc.all}}<span class="num"> {{ratings.length}}</span></span>
+      <span
+      class="btn positive"
+      :class="{active: type === 0}"
+      @click="selectType(0)"
+      >
+        {{desc.positive}}<span class="num"> {{positiveNumber}}</span></span>
+      <span
+      class="btn negative"
+      :class="{active: type === 1}"
+      @click="selectType(1)"
+      >
+        {{desc.nagetive}}<span class="num"> {{nagetiveNumber}}</span></span>
     </div>
-    <div class="toggleContent">
-      <i class="icon-check_circle toggle-icon" :class="onlyContent"></i>
+    <div class="toggleContent"
+    @click="toggleContent"
+    >
+      <i class="icon-check_circle toggle-icon"
+      :class="{active: onlyContent}"
+      ></i>
       <span class="text">只看有评价的内容</span>
     </div>
   </div>
 </template>
 
 <script>
+const ALL = 2
+const POSITIVE = 0
+const NEGATIVE = 1
 export default {
   name: 'ratingselect',
   props: {
-
+    ratings: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    desc: {
+      type: Object,
+      default () {
+        return {
+          all: '全部',
+          positive: '满意',
+          nagetive: '不满意'
+        }
+      }
+    }
   },
   data () {
     return {
-      on
+      type: ALL,
+      onlyContent: false
+    }
+  },
+  computed: {
+    positiveNumber () {
+      let positive
+      positive = this.ratings.filter((rating) => rating.rateType === POSITIVE)
+      return positive.length
+    },
+    nagetiveNumber () {
+      let nagetive
+      nagetive = this.ratings.filter((rating) => rating.rateType === NEGATIVE)
+      return nagetive.length
+    }
+  },
+  methods: {
+    initialize () {
+      this.type = ALL
+      this.onlyContent = false
+    },
+    selectType (type) {
+      this.type = type
+      this.$emit('select', type)
+    },
+    toggleContent () {
+      this.onlyContent = !this.onlyContent
+      this.$emit('toggle', this.onlyContent)
     }
   }
 }
@@ -41,7 +105,6 @@ export default {
       margin-right .16rem
       line-height .32rem
       font-size .24rem
-      background #f3f5f7
       border-radius .02rem
       color rgb(77,85,93)
       &.active
@@ -50,7 +113,7 @@ export default {
         background rgba(0,160,220,.2)
         &.active
           background rgb(0,160,220)
-      &.nagetive
+      &.negative
         background rgba(77,85,93,.2)
         &.active
           background rgb(77,85,93)

@@ -44,7 +44,32 @@
       <div class="food-rating">
         <div class="title">商品评价</div>
       </div>
-      <ratingselect></ratingselect>
+      <ratingselect
+      :ratings="food.ratings"
+      :desc="desc"
+      ref="ratingselect"
+      ></ratingselect>
+      <div class="list-wrapper">
+        <ul v-show="food.ratings&&food.ratings.length">
+          <li
+          v-for="(rating,index) of food.ratings"
+          :key="index"
+          v-show="showRatings(rating.rateType,rating.text)"
+          class="rating border-bottom"
+          >
+            <div class="user">
+              <span class="name">{{rating.username}}</span>
+              <img :src="rating.avatar" alt="" class="avatar">
+            </div>
+            <div class="time">{{rating.rateTime}}</div>
+            <div class="text">
+              <i
+              :class="{'icon-thumb_up': rating.rateType === 0,'icon-thumb_down' :rating.rateType === 1}"
+              class="icon"
+              ></i>{{rating.text ||'暂无评论'}}</div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </transition>
@@ -56,6 +81,9 @@ import split from 'components/common/split/split.vue'
 import ratingselect from 'components/common/ratingselect/ratingselect.vue'
 import BScroll from 'better-scroll'
 import Bus from '@/bus.js'
+
+const ALL = 2
+
 export default {
   name: 'foodDetail',
   props: {
@@ -68,7 +96,12 @@ export default {
   },
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        nagetive: '吐槽'
+      }
     }
   },
   computed: {
@@ -82,9 +115,10 @@ export default {
   methods: {
     show () {
       this.showFlag = true
+      let com = this.$refs.ratingselect
+      com.initialize()
       this.$nextTick(() => {
         if (!this.scroll) {
-          console.log(this.$refs)
           this.scroll = new BScroll(this.$refs.food, {
             click: true
           })
@@ -98,15 +132,32 @@ export default {
     },
     addFirst (event) {
       if (this.food.count !== 0) {
-        this.$set(this.food,'count',1)
+        this.$set(this.food, 'count', 1)
       } else {
         this.food.count = 1
       }
-      Bus.$emit('addfood',event.target)
-      //这里如果直接消失，会导致小球动画计算错误，因为小球动画需要计算点击目标的位置，如果直接消失就获取不到了，可以添加一个缓动动画，解决这个bug
+      Bus.$emit('addfood', event.target)
+      // 这里如果直接消失，会导致小球动画计算错误，因为小球动画需要计算点击目标的位置，如果直接消失就获取不到了，可以添加一个缓动动画，解决这个bug
     },
     addfood (target) {
-      Bus.$emit('addfood',target)
+      Bus.$emit('addfood', target)
+    },
+    showRatings (type,text) {
+      let com = this.$refs.ratingselect
+      let showContent = true
+      let showType = true
+      if (com.onlyContent) {
+        showContent = Boolean(text)
+      }
+      if (com.type === ALL) {
+        showType = true
+      } else {
+        showType = type === com.type
+      }
+      this.$nextTick(() => {
+        this.scroll.refresh()
+      })
+      return showContent && showType
     }
   }
 }
@@ -209,10 +260,46 @@ export default {
       font-size .24rem
       font-weight 200
   .food-rating
-    margin .36rem 
+    margin .36rem
     margin-bottom 0
     .title
       font-size .28rem
       line-height .28rem
       color rgb(7,17,27)
+  .list-wrapper
+    margin 0 .36rem
+    .rating
+      position relative
+      padding .32rem 0
+      .user
+        position absolute
+        right 0
+        font-size 0
+        .name
+          font-size .2rem
+          color rgb(147,153,159)
+          line-height .24rem
+          margin-right .12rem
+          height .3rem
+        .avatar
+          width .24rem
+          height .24rem
+          border-radius 50%
+          vertical-align top
+      .time
+        font-size .2rem
+        color rgb(147,153,159)
+        line-height .24rem
+        padding-bottom .12rem
+      .text
+        font-size .24rem
+        color rgb(7,17,27)
+        line-height .32rem
+        .icon
+          margin-right .08rem
+          font-size .24rem
+          line-height .48rem
+          color rgb(147,153,159)
+          &.icon-thumb_up
+            color rgb(0,160,220)
 </style>

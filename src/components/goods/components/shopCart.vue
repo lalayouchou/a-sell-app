@@ -10,7 +10,7 @@
         <div class="desc">另需配送费￥{{deliveryPrice}}</div>
       </div>
       <div class="content-right" ref="button"
-      :class="{pay:totalPrice >= minPrice}">{{handlePrice}}</div>
+      :class="{pay:totalPrice >= minPrice && totalPrice !== 0}">{{handlePrice}}</div>
       <shopcart-list
       :selectFoods="selectFoods"
       :show="show"
