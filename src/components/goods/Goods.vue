@@ -16,11 +16,6 @@
      ref="foods"
      ></foods-list>
    </div>
-   <shop-cart
-   :seller="seller"
-   :selectFoods="selectFoods"
-   @empty="handleEmpty"
-   ></shop-cart>
   </div>
 </template>
 
@@ -61,11 +56,17 @@ export default {
       return selectfoods
     }
   },
+  watch: {
+    selectFoods () {
+      Bus.$emit('selectFoods',this.selectFoods)
+    }
+  },
   mounted () {
     Bus.$on('goods', (goods, seller) => {
       this.goods = goods
       this.seller = seller
     })
+    Bus.$on('empty', this.handleEmpty)
     this.$nextTick(() => {
       this.scrollgood = new BScroll(this.$refs.goods, {
         click: true

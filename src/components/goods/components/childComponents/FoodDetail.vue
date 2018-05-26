@@ -142,21 +142,25 @@ export default {
     addfood (target) {
       Bus.$emit('addfood', target)
     },
-    showRatings (type,text) {
+    showRatings (type, text) {
       let com = this.$refs.ratingselect
       let showContent = true
       let showType = true
-      if (com.onlyContent) {
+      /* if (com.onlyContent) {
         showContent = Boolean(text)
+      } */
+      if (com.onlyContent && !text) {
+        showContent = false
       }
-      if (com.type === ALL) {
-        showType = true
-      } else {
+
+      if (com.type !== ALL) {
         showType = type === com.type
       }
+
       this.$nextTick(() => {
         this.scroll.refresh()
       })
+
       return showContent && showType
     }
   }

@@ -39,7 +39,7 @@
 
 <script>
 import Bus from '@/bus.js'
-import shopcartList from './childComponents/shopcartList.vue'
+import shopcartList from './components/shopcartList.vue'
 import BScroll from 'better-scroll'
 export default {
   name: 'shopCart',
