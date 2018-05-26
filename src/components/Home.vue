@@ -3,7 +3,7 @@
     <home-header :seller="seller"></home-header>
     <home-nav></home-nav>
     <keep-alive>
-      <router-view></router-view>
+      <router-view :seller="seller" :ratings="ratings"></router-view>
     </keep-alive>
     <shop-cart
     :seller="seller"
@@ -19,6 +19,9 @@ import HomeNav from './nav/Nav.vue'
 import shopCart from './shopCart/shopCart.vue'
 import Bus from '../bus.js'
 import axios from 'axios'
+
+let FIRST = true
+
 export default {
   name: 'Home',
   components: {
@@ -29,20 +32,23 @@ export default {
   data () {
     return {
       seller: {},
-      ratings: '',
-      goods: '',
+      ratings: [],
+      goods: [],
       selectFoods: []
     }
   },
   mounted () {
-    axios.get('/api/data.json')
-      .then(this.getDataSucc)
-      .catch(this.getDataFail)
-    Bus.$on('selectFoods',(v) => {
+    this.getmsg()
+    Bus.$on('selectFoods', (v) => {
       this.selectFoods = v
     })
   },
   methods: {
+    getmsg () {
+      axios.get('/api/data.json')
+        .then(this.getDataSucc)
+        .catch(this.getDataFail)
+    },
     getDataSucc (res) {
       res = res.data
       if (res.ret && res) {
@@ -60,10 +66,16 @@ export default {
   },
   watch: {
     goods () {
-      if (Array.isArray(this.goods)) {
+      if (this.goods.length) {
         Bus.$emit('goods', this.goods, this.seller)
       }
-    }
+    },
+/*    '$route' () {
+      if (this.$route.name ===  "ratings" && FIRST) {
+        this.getmsg ()
+        FIRST = false
+      }
+    }*/
   }
 }
 </script>

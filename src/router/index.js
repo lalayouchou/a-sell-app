@@ -22,11 +22,13 @@ export default new Router({
       }, {
         path: 'ratings',
         name: 'ratings',
-        component: Ratings
+        component: Ratings,
+        props: true
       }, {
         path: 'seller',
         name: 'seller',
-        component: Seller
+        component: Seller,
+        props: true
       }]
     }
   ],

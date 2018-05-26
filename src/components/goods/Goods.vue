@@ -22,7 +22,6 @@
 <script>
 import GoodsList from './components/goodsList.vue'
 import FoodsList from './components/foodsList.vue'
-import shopCart from './components/shopCart.vue'
 import BScroll from 'better-scroll'
 import Bus from '@/bus.js'
 export default {
@@ -40,8 +39,7 @@ export default {
   },
   components: {
     GoodsList,
-    FoodsList,
-    shopCart
+    FoodsList
   },
   computed: {
     selectFoods () {
@@ -58,7 +56,7 @@ export default {
   },
   watch: {
     selectFoods () {
-      Bus.$emit('selectFoods',this.selectFoods)
+      Bus.$emit('selectFoods', this.selectFoods)
     }
   },
   mounted () {
