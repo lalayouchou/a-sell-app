@@ -108,10 +108,12 @@ export default {
     },
     show () {
       if (!this.totalCount) {
+        /* eslint-disable no-unused-vars */
         this.flod = true
         return false
       }
       let show = !this.flod
+      /* eslint-disable no-unused-vars */
       if (show) {
         this.$nextTick(() => {
           if (!this.scroll) {

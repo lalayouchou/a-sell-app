@@ -72,7 +72,7 @@ import star from 'components/common/star/star.vue'
 import split from 'components/common/split/split.vue'
 import icon from 'components/common/icon-component/iconComponent.vue'
 import BScroll from 'better-scroll'
-import {saveToLocal, loadFromLocal}  from '@/common/js/store.js'
+import {saveToLocal, loadFromLocal} from '@/common/js/store.js'
 export default {
   name: 'HomeSeller',
   props: {
@@ -97,14 +97,14 @@ export default {
   },
   computed: {
     favoriteText () {
-      return this.favorite ? '已收藏':'收藏'
+      return this.favorite ? '已收藏' : '收藏'
     }
   },
   methods: {
     picsWidth (length) {
       const Picwidth = 2.4
-      const right = .12
-      let  width = (Picwidth + right) * length - right
+      const right = 0.12
+      let width = (Picwidth + right) * length - right
       this.$refs.picsList.style.width = width + 'rem'
       this.$nextTick(() => {
         this._initPicsScroll()
@@ -199,7 +199,7 @@ export default {
       line-height .28rem
       color rgb(7,17,27)
     .content
-      padding 0 .24rem .32rem 
+      padding 0 .24rem .32rem
       font-size .24rem
       line-height .48rem
       font-weight 200
