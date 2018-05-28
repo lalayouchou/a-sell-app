@@ -19,6 +19,7 @@ import HomeNav from './nav/Nav.vue'
 import shopCart from './shopCart/shopCart.vue'
 import Bus from '../bus.js'
 import axios from 'axios'
+import urlParse from '@/common/js/util.js'
 
 let FIRST = true
 
@@ -31,7 +32,7 @@ export default {
   },
   data () {
     return {
-      seller: {},
+      seller: (() => urlParse())(),
       ratings: [],
       goods: [],
       selectFoods: []
@@ -45,14 +46,14 @@ export default {
   },
   methods: {
     getmsg () {
-      axios.get('/api/data.json')
+      axios.get('/api/data.json?id=' + this.seller.id)
         .then(this.getDataSucc)
         .catch(this.getDataFail)
     },
     getDataSucc (res) {
       res = res.data
       if (res.ret && res) {
-        this.seller = res.seller
+        this.seller = Object.assign({}, this.seller, res.seller)
         this.ratings = res.ratings
         this.goods = res.goods
       }
@@ -70,12 +71,12 @@ export default {
         Bus.$emit('goods', this.goods, this.seller)
       }
     },
-/*    '$route' () {
-      if (this.$route.name ===  "ratings" && FIRST) {
-        this.getmsg ()
+    '$route' () {
+      if (this.$route.name === 'ratings' && FIRST) {
+        this.getmsg()
         FIRST = false
       }
-    }*/
+    }
   }
 }
 </script>

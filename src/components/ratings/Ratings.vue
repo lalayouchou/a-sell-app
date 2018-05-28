@@ -40,7 +40,7 @@
             <div class="avatar">
                 <img :src="rating.avatar" alt="" class="avatar-img">
               </div>
-              <div class="time">{{rating.rateTime}}</div>
+              <div class="time">{{rating.rateTime | handleTime}}</div>
               <div class="content">
                 <div class="name">{{rating.username}}</div>
                 <div class="star-wrapper">
@@ -58,7 +58,7 @@
                   ></i>
                   <span v-for="(item,index) of rating.recommend"
                   :key="index"
-                  class="item border" 
+                  class="item border"
                   >
                   {{item}}
                   </span>
@@ -75,6 +75,7 @@
 import split from 'components/common/split/split.vue'
 import star from 'components/common/star/star.vue'
 import ratingselect from 'components/common/ratingselect/ratingselect.vue'
+import getTime from '@/common/js/date.js'
 import BScroll from 'better-scroll'
 
 const ALL = 2
@@ -99,6 +100,11 @@ export default {
       }
     })
   },
+  filters: {
+    handleTime (time) {
+      return getTime(time, 'yyyy-MM-dd hh:mm')
+    }
+  },
   methods: {
     showNeed (type, text) {
       let com = this.$refs.ratingselect
@@ -108,7 +114,7 @@ export default {
           com.initialize()
         })
       } else {
-        return this.showRatings (type, text)
+        return this.showRatings(type, text)
       }
     },
     showRatings (type, text) {
@@ -131,6 +137,14 @@ export default {
       })
 
       return showContent && showType
+    }
+  },
+  watch: {
+    seller () {
+      console.log('数据更新')
+    },
+    ratings () {
+      console.log('数据更新')
     }
   }
 }

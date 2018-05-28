@@ -61,7 +61,7 @@
               <span class="name">{{rating.username}}</span>
               <img :src="rating.avatar" alt="" class="avatar">
             </div>
-            <div class="time">{{rating.rateTime}}</div>
+            <div class="time">{{rating.rateTime | handleTime}}</div>
             <div class="text">
               <i
               :class="{'icon-thumb_up': rating.rateType === 0,'icon-thumb_down' :rating.rateType === 1}"
@@ -80,6 +80,7 @@ import cartControl from 'components/common/cartControl/cartControl.vue'
 import split from 'components/common/split/split.vue'
 import ratingselect from 'components/common/ratingselect/ratingselect.vue'
 import BScroll from 'better-scroll'
+import getTime from '@/common/js/date.js'
 import Bus from '@/bus.js'
 
 const ALL = 2
@@ -102,6 +103,11 @@ export default {
         positive: '推荐',
         nagetive: '吐槽'
       }
+    }
+  },
+  filters: {
+    handleTime (time) {
+      return getTime(time, 'yyyy-MM-dd hh:mm')
     }
   },
   computed: {
